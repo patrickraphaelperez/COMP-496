@@ -30,45 +30,53 @@ public class Sorts {
 	public static long merge(int[] a, int i, int j, int k){
 		long comparisonCount = 0;
 		int size = (k-i+1);
+        //Continue if size of current array is 2 -- comparisons will be made when array is size 
+        if(size < 2) {
+            return comparisonCount;
+        }
 		//create temporary array
 		int[] tempArray = new int[size];
-		for (int n = i; n <= k; n++){
-			tempArray[n] = a[n];
-		}
-		
 		int temp = 0; //temporary position
 		int left = i; //left pointer
 		int right = j+1; //right pointer
 		
 		while(temp < size){
 			if(left <= j && right <= k){
-				if(tempArray[left] <= tempArray[right]){
-					a[temp] = tempArray[left];
-					i++;
+				if(a[left] <= a[right]){
+					tempArray[temp] = a[left];
+					temp++;
 					left++;
 				} else {
-					a[temp] = tempArray[right];
+					tempArray[temp] = a[right];
 					temp++;
 					right++;
 				}
 				comparisonCount++;
 			} else if(left <= j) {
-				a[temp] = tempArray[left];
+				tempArray[temp] = a[left];
 				temp++;
 				left++;
 			} else if(right <= k) {
-				a[temp] = tempArray[right];
+				tempArray[temp] = a[right];
 				temp++;
 				right++;
 			}
 		}
+        
+		//Now that temporary array is sorted, move it to original array
+        temp = 0;
+        for(int n = i; n <= k; n++) {
+            a[n] = tempArray[temp];
+            temp++;
+        }
+        
 		return comparisonCount;
 	}
 	
 	//sorts a[i...k] for 0 <= i <= k < a.length
 	private static long mergesort(int[] a, int i, int k){
 		int medianIndex = (i+k)/2;
-		if (i < k){ 
+		if ((k-i) >= 2){ 
 			/* break up the original array into 2 arrays 
 			 * and then sort those lists  
 			 */
