@@ -5,14 +5,16 @@ public class Sorts {
 	/*----------Insertion Sort----------*/
 	public static long insertionsort(int[] a){
         long comparisonCount = 0;
-        int currentIndex;
-        for(int i = 0; i < a.length; i++) {
-        	currentIndex = a[i];
-            for(int j = i-1; j >= 0; j--) {
-                if(currentIndex < a[j]) {
-                    a[j+1] = a[j];
-                    a[j] = currentIndex;
-                    comparisonCount++;
+        int tmp;
+        for(int i = 1; i < a.length; i++) {
+            for(int j = i; j > 0; j--) {
+            	int currentIndex = a[j];
+            	int leftIndex = a[j-1];
+            	comparisonCount++;
+                if(currentIndex < leftIndex) {
+                    tmp = a[j];
+                    a[j] = a[j-1];
+                    a[j-1] = tmp;
                 }
             }
         }
