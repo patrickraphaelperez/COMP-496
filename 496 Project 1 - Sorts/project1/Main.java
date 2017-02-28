@@ -8,13 +8,9 @@ public class Main {
 		
 		//format table
 		System.out.println("Merge Sort - tested on " + runs + " different arrays of size n");
-		System.out.println("---------------------------------------------------"); //51
-		System.out.printf("%7s", "n"); //space of size 7 bc max number is 5 million
-		System.out.printf("%1s %10s", "|", "C(n)");
-		//System.out.printf("-%1s %10s", "|", "C(n)/(n*log2(n))");
-		System.out.printf("%1s %10s", "|", "T(n)");
-		//System.out.printf("-%1s %10s", "|", "T(n)/(n*log2(n))");
-		
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.printf("%7s%1s %15s%1s %17s%1s %15s%1s %17s", "n", "|", "C(n)", "|", "C(n)/(n*(log2)n)", "|", "T(n)", "|", "T(n)/(n*(log2)n)");
+
 		//run merge sort on seven different size n's 
 		for (int i = 0; i < 7; i++){
 			long totalTime = 0;
@@ -25,8 +21,8 @@ public class Main {
 				long endTime;
 				int[] randomArray = new int[arraySizesMerge[i]];
 				//populate random array with random integers
-				for (int n = 0; n < arraySizesMerge[i]; n++){
-					randomArray[n] = (int)(Math.random() * 1000000);
+				for (int k = 0; k < arraySizesMerge[i]; k++){
+					randomArray[k] = (int)(Math.random() * 1000000);
 				}
 				//now that it's populated, run mergesort on it and calculate time it takes
 				startTime = System.nanoTime();
@@ -40,9 +36,10 @@ public class Main {
 			}
 			long averageTime = totalTime/5;
 			long averageComparisons = totalComparisons/5;
-			System.out.printf("\n%7d", arraySizesMerge[i]);
-			System.out.printf("%1s %10d", "|", averageComparisons);
-			System.out.printf("%1s %10d", "|", averageTime);
+			int n = arraySizesMerge[i]; //this is the current array size n 
+			double comparisonLog = averageComparisons/(n*(Math.log(n)/Math.log(2))); //Math.log(n)/Math.log(2) is log base 2
+			double runtimeLog = averageTime/(n*(Math.log(n)/Math.log(2)));
+			System.out.printf("\n%7d%1s %15d%1s %.15f%1s %15d%1s %.15f", arraySizesMerge[i], "|", averageComparisons, "|", comparisonLog, "|", averageTime, "|", runtimeLog);
 		}
 		
 
@@ -50,12 +47,8 @@ public class Main {
 		
 		//format table
 		System.out.println("\nInsertion Sort - tested on " + runs + " different arrays of size n");
-		System.out.println("---------------------------------------------------"); //51
-		System.out.printf("%7s", "n"); //space of size 7 bc max number is 5 million
-		System.out.printf("%1s %10s", "|", "C(n)");
-		//System.out.printf("-%1s %10s", "|", "C(n)/(n*log2(n))");
-		System.out.printf("%1s %10s", "|", "T(n)");
-		//System.out.printf("-%1s %10s", "|", "T(n)/(n*log2(n))");
+		System.out.println("---------------------------------------------------------------------------------");
+		System.out.printf("%7s%1s %15s%1s %17s%1s %15s%1s %17s", "n", "|", "C(n)", "|", "C(n)/(n*(log2)n)", "|", "T(n)", "|", "T(n)/(n*(log2)n)");
 		
 		//run insertion sort on seven different size n's 
 		for (int i = 0; i < 7; i++){
@@ -67,12 +60,12 @@ public class Main {
 				long endTime;
 				int[] randomArray = new int[arraySizesInsertion[i]];
 				//populate random array with random integers
-				for (int n = 0; n < arraySizesInsertion[i]; n++){
-					randomArray[n] = (int)(Math.random() * 1000000);
+				for (int k = 0; k < arraySizesInsertion[i]; k++){
+					randomArray[k] = (int)(Math.random() * 1000000);
 				}
 				//now that it's populated, run mergesort on it and calculate time it takes
 				startTime = System.nanoTime();
-				totalComparisons += Sorts.insertionSort(randomArray);
+				totalComparisons += Sorts.insertionsort(randomArray);
 				endTime = System.nanoTime();
 				totalTime += endTime - startTime;
 				if(!Sorts.isSorted(randomArray)){
@@ -82,9 +75,10 @@ public class Main {
 			}
 			long averageTime = totalTime/5;
 			long averageComparisons = totalComparisons/5;
-			System.out.printf("\n%7d", arraySizesInsertion[i]);
-			System.out.printf("%1s %10d", "|", averageComparisons);
-			System.out.printf("%1s %10d", "|", averageTime);
+			int n = arraySizesInsertion[i];
+			double comparisonLog = averageComparisons/Math.pow(n, 2);
+			double runtimeLog = averageTime/Math.pow(n, 2);
+			System.out.printf("\n%7d%1s %15d%1s %.15f%1s %15d%1s %.15f", arraySizesInsertion[i], "|", averageComparisons, "|", comparisonLog, "|", averageTime, "|", runtimeLog);
 		}
 	}
 }

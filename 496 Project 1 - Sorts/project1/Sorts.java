@@ -3,7 +3,7 @@ package project1;
 public class Sorts {
 
 	/*----------Insertion Sort----------*/
-	public static long insertionSort(int[] a){
+	public static long insertionsort(int[] a){
         long comparisonCount = 0;
         int currentIndex;
         for(int i = 0; i < a.length; i++) {
@@ -30,10 +30,7 @@ public class Sorts {
 	public static long merge(int[] a, int i, int j, int k){
 		long comparisonCount = 0;
 		int size = (k-i+1);
-        //Continue if size of current array is 2 -- comparisons will be made when array is size 
-        if(size < 2) {
-            return comparisonCount;
-        }
+		
 		//create temporary array
 		int[] tempArray = new int[size];
 		int temp = 0; //temporary position
