@@ -1,3 +1,10 @@
+/*
+ * Patrick-Raphael Perez
+ * Professor Schwartz
+ * COMP 496ALG - Spring 2017
+ * February 28, 2017
+ * Project 1: Sorts
+ */
 package project1;
 
 public class Sorts {
@@ -74,15 +81,17 @@ public class Sorts {
 	
 	//sorts a[i...k] for 0 <= i <= k < a.length
 	private static long mergesort(int[] a, int i, int k){
+		long comparisonCount = 0;
 		int medianIndex = (i+k)/2;
 		if ((k-i) >= 2){ 
 			/* break up the original array into 2 arrays 
 			 * and then sort those lists  
 			 */
-			mergesort(a, i, medianIndex);
-			mergesort(a, medianIndex+1, k);
+			comparisonCount += mergesort(a, i, medianIndex);
+			comparisonCount += mergesort(a, medianIndex+1, k);
 		}
-		return merge(a, i, medianIndex, k);
+		comparisonCount += merge(a, i, medianIndex, k);
+		return comparisonCount;
 	}
 	
 	//sorts the array using mergesort
