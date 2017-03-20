@@ -1,3 +1,8 @@
+/*
+ *	Patrick Raphael Perez & Irvin Alo
+ *	Copyright 2017
+ *	All rights reserved
+ */
 import java.util.ArrayList;
 
 class Schedule
