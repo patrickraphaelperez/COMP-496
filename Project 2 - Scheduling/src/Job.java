@@ -11,9 +11,8 @@ class Job
   int profit;
   int start;
   int finish;   
-  
    
-  public Job( int jn , int len, int d, int p)
+  public Job(int jn , int len, int d, int p)
   {
      jobNumber = jn; 
      length = len; 
