@@ -16,12 +16,11 @@ class Schedule
      schedule = new ArrayList<Job>();
   }
   
-  public void add(NPJob job)
+  public void add(Job job)
   {  
 	  
   }
     
- 
  public int getProfit()
   {
 	return profit;    
