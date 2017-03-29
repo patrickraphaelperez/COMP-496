@@ -3,7 +3,8 @@
  *	Copyright 2017
  *	All rights reserved
  */
-public class JobScheduler
+
+public class jobScheduler
 {
   private int nJobs;
   private Job[]  jobs;   
@@ -12,7 +13,11 @@ public class JobScheduler
   {
      //Set nJobs
      //Fill jobs array. The kth job entered has JobNo = k;
-	  
+	 nJobs = joblength.length;
+	 jobs = new Job[nJobs];
+	 for (int k = 0; k < nJobs; k++){
+		 jobs[k] = new Job(k, joblength[k], deadline[k], profit[k]);
+	 }
   }
   
   public void printJobs()  //prints the array jobs
