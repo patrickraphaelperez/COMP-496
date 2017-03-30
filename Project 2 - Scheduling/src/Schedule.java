@@ -16,9 +16,9 @@ class Schedule
      schedule = new ArrayList<Job>();
   }
   
-  public void add(Job job)
+  public void add(ArrayList<Job> job)
   {  
-	  
+	  job = new ArrayList<Job>();
   }
     
  public int getProfit()
