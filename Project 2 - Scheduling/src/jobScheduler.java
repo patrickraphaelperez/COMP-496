@@ -4,11 +4,13 @@
  *	All rights reserved
  */
 import java.util.PriorityQueue;
+import java.util.ArrayList;
 
 public class jobScheduler
 {
   private int nJobs;
   private Job[] jobs;   
+
   
   public JobScheduler(int[] jobLength, int[] deadline, int[] profit)
   {
@@ -32,12 +34,24 @@ public class jobScheduler
   //Brute force. Try all n! orderings. Return the schedule with the most profit
   public Schedule bruteForceSolution()
   {
+	  Schedule bruteForceSolution = new Schedule();
 	return null;   }
 
  
   public Schedule makeScheduleEDF()  
   //earliest deadline first schedule. Schedule items contributing 0 to total profit last
   {
+	  Schedule earliestDeadlineFirst = new Schedule();
+	  
+	  //Sort tasks by earliest deadline---------------
+	  int d = 0; 
+	  for (int i = 0; i >= nJobs; i++){
+		  
+	  }
+	  //----------------------------------------------
+	  
+	  
+
 	return null;  }
 
   public Schedule makeScheduleSJF()
@@ -57,3 +71,79 @@ public class jobScheduler
 	return null;  }
 
 }//end of JobScheduler class
+
+//Job class
+class Job
+{
+  int jobNumber;
+  int length;
+  int deadline;
+  int profit;
+  int start;
+  int finish;   
+   
+  public Job(int jn , int len, int d, int p)
+  {
+     jobNumber = jn; 
+     length = len; 
+     deadline = d;
+     profit = p;  
+     start = -1;  
+     finish = -1;
+  }
+
+   public int getDeadline() {
+      return deadline;
+   }
+   
+   public int getProfit(){
+	   return profit;
+   }
+   
+   public int getLength(){
+	   return length;
+   }
+     
+  public String toString()
+  {
+     return "#" + jobNumber + ":(" + length + "," 
+              + deadline + "," + profit + 
+              "," + start + "," + finish + ")";
+  }
+
+}//end of Job class
+
+//Schedule Class
+class Schedule
+{
+  ArrayList<Job> schedule;
+  int profit;
+   
+  public Schedule()
+  {
+     profit = 0;
+     schedule = new ArrayList<Job>();
+  }
+  
+  public void add(ArrayList<Job> job)
+  {  
+	  job = new ArrayList<Job>();
+  }
+    
+ public int getProfit()
+  {
+	return profit;    
+  }
+      
+  public String toString()
+  {
+     String s = "Schedule Profit = " + profit ;
+     for(int k = 0 ; k < schedule.size(); k++)
+     {
+        s = s + "\n"  + schedule.get(k);
+         
+     }
+         
+     return s;
+  }     
+}// end of Schedule class
