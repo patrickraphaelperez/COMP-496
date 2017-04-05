@@ -1,7 +1,8 @@
 /*
  *	Patrick Raphael Perez & Irvin Alo
- *	Copyright 2017
- *	All rights reserved
+ *	Comp 496
+ *	Due April 6, 2017
+ *	Project 2: Job Scheduler
  */
 import java.util.PriorityQueue;
 import java.util.ArrayList;
@@ -35,24 +36,38 @@ public class JobScheduler
   public Schedule bruteForceSolution()
   {
 	  Schedule bruteForceSolution = new Schedule();
-	return null;   }
+	  
+	return null;   
+  }
 
- 
-  public Schedule makeScheduleEDF()  
+  public Schedule makeScheduleEDF()  //IRVIN
   //earliest deadline first schedule. Schedule items contributing 0 to total profit last
   {
-	  Schedule earliestDeadlineFirst = new Schedule();
+	  Schedule earliestdeadline = new Schedule();
 	  
-	  //Sort tasks by earliest deadline---------------
-	  int d = 0; 
-	  for (int i = 0; i >= nJobs; i++){
+	  //Sort tasks by earliest deadline--------------- (insertion sort)
+	  
+	  Job temp;
+	  for (int i = 0; i < nJobs; i++){
+			  int j = i;
+			  while (j > 0 && jobs[j-1].getDeadline() > jobs[j].getDeadline()) {
+				  
+				  temp = jobs[j];
+				  jobs[j] = jobs[j-1];
+				  jobs[j-1] = temp;
+				  j--;
+			  
+			  }
 		  
 	  }
-	  //----------------------------------------------
-	  
-	  
-
-	return null;  }
+	  //Set schedule
+	  for (int i = 0; i < nJobs; i++) {
+		  earliestdeadline.add(jobs[i]);
+	  }
+	  // unprofitable jobs added to the end of the list
+	  earliestdeadline.completeSchedule();
+	  return earliestdeadline;  
+  }
 
   public Schedule makeScheduleSJF(){
 /* shortest job first schedule. Schedule items contributing 0 to total profit last
@@ -99,7 +114,7 @@ public class JobScheduler
  public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3)
 {
 	return null;  }
-
+  
 }//end of JobScheduler class
 
 //Job class
