@@ -2,9 +2,14 @@
  *	Patrick Raphael Perez & Irvin Alo
  *	Copyright 2017
  *	All rights reserved
+ *
+ *	Comp 496
+ *	Due April 6, 2017
+ *	Project 2: Job Scheduler
  */
 import java.util.PriorityQueue;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class jobScheduler
 {
@@ -31,28 +36,49 @@ public class jobScheduler
 	  }
   }
     
+  public Schedule scheduler(Job[] arr) {
+	  //Scheduler object
+	  
+	  return null;
+  }
   //Brute force. Try all n! orderings. Return the schedule with the most profit
   public Schedule bruteForceSolution()
   {
 	  Schedule bruteForceSolution = new Schedule();
-	return null;   }
+	  
+	return null;   
+  }
 
  
   public Schedule makeScheduleEDF()  
   //earliest deadline first schedule. Schedule items contributing 0 to total profit last
   {
-	  Schedule earliestDeadlineFirst = new Schedule();
 	  
-	  //Sort tasks by earliest deadline---------------
-	  int d = 0; 
+	  //Sort tasks by earliest deadline--------------- (insertion sort)
+	  Job temp;
 	  for (int i = 0; i >= nJobs; i++){
-		  
+		  for (int j = i; j > 0; j--){
+			  
+			  if (jobs[i].getDeadline() < jobs[i+1].getDeadline()) {
+				  
+				  temp = jobs[j];
+				  jobs[j] = jobs[j-1];
+				  jobs[j-1] = temp;
+			  
+			  }
+		  }
 	  }
-	  //----------------------------------------------
+	  //Set schedule
+	  Schedule earliestdeadline = new Schedule();
+	  
+	  
+	  
+	  
 	  
 	  
 
-	return null;  }
+	return null;  
+  }
 
   public Schedule makeScheduleSJF()
 //shortest job first schedule. Schedule items contributing 0 to total profit last
@@ -91,18 +117,18 @@ class Job
      start = -1;  
      finish = -1;
   }
-
-   public int getDeadline() {
-      return deadline;
-   }
-   
-   public int getProfit(){
-	   return profit;
-   }
-   
-   public int getLength(){
-	   return length;
-   }
+  
+  public int getDeadline() {
+	  return deadline;
+  }
+  
+  public int getLength() {
+	  return length;
+  }
+  
+  public int getProfit() {
+	  return profit;
+  }
      
   public String toString()
   {
@@ -125,9 +151,9 @@ class Schedule
      schedule = new ArrayList<Job>();
   }
   
-  public void add(ArrayList<Job> job)
+  public void add(Job job)
   {  
-	  job = new ArrayList<Job>();
+	  schedule.add(job);
   }
     
  public int getProfit()
