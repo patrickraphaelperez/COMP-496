@@ -60,17 +60,22 @@ public class jobScheduler
 	  Schedule shortestJobFirst = new Schedule();
 	return null; } 
  
-  public Schedule makeScheduleHPF() //PAT
+  public Schedule makeScheduleHPF(){
  /* highest profit first schedule. Schedule items contributing 0 to total profit last
   * we must compare the profit of all the jobs to each other, and sort them as such
   * idea: use a priority queue to sort the jobs according to a comparator that compares profit
   */
-  
-  {
 	  Schedule highestProfitFirst = new Schedule();
 	  Comparator<Job> comparator = new hpfComparison();
-	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator)
-	return null; }
+	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator);
+	  
+	  for(int i = 0; i < nJobs; i++){
+		  queue.add(jobs[i]);
+	  }
+	  
+	  
+	return highestProfitFirst; 
+	}
 
  public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3)
 {
@@ -142,7 +147,7 @@ class Schedule
 		  job.finish = job.length + job.start;
 		  /*
 		   * if a job finishes before its deadline, we get a profit
-		   * otherwise, we store the job in a temprorary array and then add them to our schedule last
+		   * otherwise, we store the job in a temprorary array and then add them to our schedule at the end
 		   */
 		  if(job.finish <= job.deadline){
 			  this.profit += job.profit;
@@ -200,6 +205,15 @@ class hpfComparison implements Comparator<Job> {
 		 * return -1 if a goes before b
 		 * return 0 otherwise
 		 */
+		if (a.profit > b.profit){
+			return -1;
+		} 
+		else if (a.profit < b.profit){
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 }
 
