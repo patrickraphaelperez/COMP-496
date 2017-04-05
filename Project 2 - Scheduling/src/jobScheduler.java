@@ -26,7 +26,6 @@ public class jobScheduler
 	 for (int k = 0; k < nJobs; k++){
 		 jobs[k] = new Job(k, jobLength[k], deadline[k], profit[k]);
 	 }
-	
   }
   
   public void printJobs()  //prints the array jobs
@@ -80,16 +79,22 @@ public class jobScheduler
 	return null;  
   }
 
-  public Schedule makeScheduleSJF()
+  public Schedule makeScheduleSJF() //PAT
 //shortest job first schedule. Schedule items contributing 0 to total profit last
   {
 	  Schedule shortestJobFirst = new Schedule();
 	return null; } 
  
-  public Schedule makeScheduleHPF()  
- //highest profit first schedule. Schedule items contributing 0 to total profit last
+  public Schedule makeScheduleHPF() //PAT
+ /* highest profit first schedule. Schedule items contributing 0 to total profit last
+  * we must compare the profit of all the jobs to each other, and sort them as such
+  * idea: use a priority queue to sort the jobs according to a comparator that compares profit
+  */
+  
   {
 	  Schedule highestProfitFirst = new Schedule();
+	  Comparator<Job> comparator = new hpfComparison();
+	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator)
 	return null; }
 
  public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3)
@@ -150,11 +155,55 @@ class Schedule
   {
      profit = 0;
      schedule = new ArrayList<Job>();
+     //this temporary schedule is for unprofitable jobs
+     unprofitableSchedule = new ArrayList<Job>();
   }
   
+<<<<<<< HEAD
   public void add(Job job)
   {  
 	  schedule.add(job);
+=======
+  //adding a job to the schedule (which is an array list)
+  public void add(Job job)
+  {  
+	  if(this.schedule.size() == 0){
+		  job.start = 0;
+		  job.finish = job.length + job.start;
+		  /*
+		   * if a job finishes before its deadline, we get a profit
+		   * otherwise, we store the job in a temprorary array and then add them to our schedule last
+		   */
+		  if(job.finish <= job.deadline){
+			  this.profit += job.profit;
+			  this.schedule.add(job);
+		  } else {
+			  this.unprofitableSchedule.add(job);
+		  }
+	  } else {
+		  Job previousJob = this.schedule.get(this.schedule.size() - 1);
+		  job.start = previousJob.finish;
+		  job.finish = job.start + job.length;
+		  if(job.finish <= job.deadline){
+			  this.profit += job.profit;
+			  this.schedule.add(job);
+		  } else {
+			  this.unprofitableSchedule.add(job);
+		  }
+	  }
+  }
+  
+  public void completeSchedule(){
+	  int n = unprofitableSchedule.size();
+	  for(int i = 0; i < n; i++){
+		  Job lastJob = this.schedule.get(this.schedule.size() - 1);
+		  Job job = this.unprofitableSchedule.get(0);
+		  this.unprofitableSchedule.remove(0);
+		  job.start = lastJob.finish;
+		  job.finish = job.start + job.length;
+		  this.schedule.add(job);
+	  }
+>>>>>>> master
   }
     
  public int getProfit()
@@ -168,9 +217,20 @@ class Schedule
      for(int k = 0 ; k < schedule.size(); k++)
      {
         s = s + "\n"  + schedule.get(k);
-         
      }
          
      return s;
   }     
 }// end of Schedule class
+
+// Highest Profit First Comparator
+class hpfComparison implements Comparator<Job> {
+	public int compare(Job a, Job b){
+		/*
+		 * return 1 if b goes before a
+		 * return -1 if a goes before b
+		 * return 0 otherwise
+		 */
+	}
+}
+
