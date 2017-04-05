@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class jobScheduler
+public class JobScheduler
 {
   private int nJobs;
   private Job[] jobs;   
@@ -54,11 +54,26 @@ public class jobScheduler
 
 	return null;  }
 
-  public Schedule makeScheduleSJF() //PAT
-//shortest job first schedule. Schedule items contributing 0 to total profit last
-  {
+  public Schedule makeScheduleSJF(){
+/* shortest job first schedule. Schedule items contributing 0 to total profit last
+ * we must compare the length of all the jobs to each other, and sort them as such
+ * idea: use a priority queue to sort the jobs according to a comparator that compares job length
+ */
 	  Schedule shortestJobFirst = new Schedule();
-	return null; } 
+	  Comparator<Job> comparator = new sjfComparison();
+	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator);
+	  
+	  for(int i = 0; i < nJobs; i++){
+		  queue.add(jobs[i]);
+	  }
+	  //after priority queue is filled, add them into the SJF schedule
+	  for(int i = 0; i < nJobs; i++){
+		  shortestJobFirst.add(queue.poll()); // .poll takes the head of the list and removes
+	  }
+	  
+	  shortestJobFirst.completeSchedule();
+	  return shortestJobFirst; 
+  } 
  
   public Schedule makeScheduleHPF(){
  /* highest profit first schedule. Schedule items contributing 0 to total profit last
@@ -72,9 +87,13 @@ public class jobScheduler
 	  for(int i = 0; i < nJobs; i++){
 		  queue.add(jobs[i]);
 	  }
+	  //after priority queue is filled, add them into the HPF schedule
+	  for(int i = 0; i < nJobs; i++){
+		  highestProfitFirst.add(queue.poll()); // .poll takes the head of the list and removes
+	  }
 	  
-	  
-	return highestProfitFirst; 
+	  highestProfitFirst.completeSchedule();
+	  return highestProfitFirst; 
 	}
 
  public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3)
@@ -168,6 +187,10 @@ class Schedule
 	  }
   }
   
+  /*
+   * This method joins the unprofitableSchedule array list to the original schedule.
+   * We call this method after we 
+   */
   public void completeSchedule(){
 	  int n = unprofitableSchedule.size();
 	  for(int i = 0; i < n; i++){
@@ -197,19 +220,20 @@ class Schedule
   }     
 }// end of Schedule class
 
+//--------- COMPARATOR METHODS --------
+/* return 1 if b goes before a
+ * return -1 if a goes before b
+ * return 0 otherwise 
+ */
+
 // Highest Profit First Comparator
 class hpfComparison implements Comparator<Job> {
 	public int compare(Job a, Job b){
-		/*
-		 * return 1 if b goes before a
-		 * return -1 if a goes before b
-		 * return 0 otherwise
-		 */
-		if (a.profit > b.profit){
-			return -1;
-		} 
-		else if (a.profit < b.profit){
+		if (a.profit < b.profit){
 			return 1;
+		} 
+		else if (a.profit > b.profit){
+			return -1;
 		}
 		else {
 			return 0;
@@ -217,3 +241,17 @@ class hpfComparison implements Comparator<Job> {
 	}
 }
 
+//Shortest Job First Comparator
+class sjfComparison implements Comparator<Job> {
+	public int compare(Job a, Job b){
+		if (a.length > b.length){
+			return 1;
+		} 
+		else if (a.length < b.length){
+			return -1;
+		}
+		else {
+			return 0;
+		}
+	}
+}
