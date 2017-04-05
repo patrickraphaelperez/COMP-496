@@ -9,7 +9,7 @@
  */
 import java.util.PriorityQueue;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 
 public class jobScheduler
 {
@@ -143,6 +143,7 @@ class Job
 class Schedule
 {
   ArrayList<Job> schedule;
+  ArrayList<Job> unprofitableSchedule;
   int profit;
    
   public Schedule()
