@@ -6,6 +6,7 @@
  */
 import java.util.PriorityQueue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class JobScheduler
@@ -33,36 +34,64 @@ public class JobScheduler
   }
     
   //Brute force. Try all n! orderings. Return the schedule with the most profit
+  /*
+   * NOT WORKING; But the idea is:
+   * create a possible job combination,
+   * records the profit, create a new job combination,
+   * compare the profit, 
+   * and then returns a job array with the highest profit
+   * then using that job array, schedule it onto the machine
+   */
   public Schedule bruteForceSolution()
   {
 	  Schedule bruteForceSolution = new Schedule();
-	  
-	  
-	  return bruteForceSolution;   
+	/*Job[] bestJobArray = new Job[nJobs];
+	  bestJobArray = permute(jobs, 0);
+	  for (int i = 0; i < nJobs; i++) {
+		  bruteForceSolution.add(bestJobArray[i]);
+	  }*/
+
+	  for (int i = 0; i < nJobs; i++) {
+		  bruteForceSolution.add(jobs[i]);
+	  }
+	  bruteForceSolution.completeSchedule();
+	  return bruteForceSolution; 
   }
   
-  public void permute(Job[] jobs) { 
-	 permuteHelper(jobs, 0);
-  }
-  
-  public void permuteHelper(Job[] jobs, int i){ //swaps the elements and recursively calls permute
-	  if (i >= jobs.length - 1) {
-		  return;
+  private Job[] permute(Job[] arr, int index){ //swaps the elements and recursively calls permute
+	  
+	  Job[] tempJobs = new Job[nJobs];
+	  Job[] best = new Job[nJobs];
+	  int profit = 0;
+	  
+	  //for each index in the sub array arr[index...end]
+	  for(int i = index; i < arr.length; i++){
+		  //Swap the elements at indices index and i
+		  Job t = arr[index];
+		  arr[index] = arr[i];
+		  arr[i] = t;
+		  //Recurse on the sub array tempJobs[index+1...end]
+		  tempJobs = permute(arr, index+1);
+		  t = arr[index];
+		  arr[index] = arr[i];
+		  arr[i] = t;
 	  }
-	  for (int j = i; j < jobs.length; j++){
-		  Job temp = jobs[i];
-		  jobs[i] = jobs[j];
-		  jobs[j] = temp;
-		  
-		  permuteHelper(jobs, i+1);
-		  
-		  temp = jobs[i];
-		  jobs[i] = jobs[j];
-		  jobs[j] = temp;
+	 /*Schedule tempSchedule = new Schedule();
+	  //Set schedule
+	  for (int j = 0; j < nJobs; j++) {
+		  tempSchedule.add(arr[j]);
 	  }
+	  // unprofitable jobs added to the end of the list
+	  tempSchedule.completeSchedule();
+	  	if (tempSchedule.getProfit() > profit){
+	  		profit = tempSchedule.getProfit();
+			arr = best;
+		}
+		*/
+	  return null;
  }
 
-  public Schedule makeScheduleEDF()  //IRVIN
+public Schedule makeScheduleEDF()
   //earliest deadline first schedule. Schedule items contributing 0 to total profit last
   {
 	  Schedule earliestdeadline = new Schedule();
@@ -78,7 +107,7 @@ public class JobScheduler
 				  jobs[j] = jobs[j-1];
 				  jobs[j-1] = temp;
 				  j--;
-			  
+	
 			  }
 		  
 	  }
@@ -136,7 +165,7 @@ public class JobScheduler
  public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3) //IRVIN
 {
 	 //Creation Idea: Longest job first
-	 Schedule longestJobFirst = new Schedule();
+	  Schedule longestJobFirst = new Schedule();
 	  Comparator<Job> comparator = new ljfComparison();
 	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator);
 	  
@@ -242,7 +271,6 @@ class Schedule
   
   /*
    * This method joins the unprofitableSchedule array list to the original schedule.
-   * We call this method after we 
    */
   public void completeSchedule(){
 	  int n = unprofitableSchedule.size();
