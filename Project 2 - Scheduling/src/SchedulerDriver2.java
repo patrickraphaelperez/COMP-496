@@ -6,7 +6,7 @@ public class SchedulerDriver2
 
    public static void main (String[] args)
    {
-   
+	  long startTime = System.nanoTime();
       int[] length = {7,4,2,5};
       int[] deadline = {7 ,16 ,8, 10};   
       int[] profit = { 10, 9, 14, 13};  
@@ -41,6 +41,14 @@ public class SchedulerDriver2
       System.out.println("\nYour own creative solution");
       Schedule NASSchedule = js.newApproxSchedule();
       System.out.println(NASSchedule);
+      
+      System.out.println("\nRuntime Results:");
+      long endTime = System.nanoTime();
+      long nanoTotalTime = endTime - startTime;
+      System.out.println(nanoTotalTime + " nanoseconds");
+      
+      double secondsTotalTime = (double)nanoTotalTime / 1000000000.0;
+      System.out.println(secondsTotalTime + " seconds");
        
    }
 }
