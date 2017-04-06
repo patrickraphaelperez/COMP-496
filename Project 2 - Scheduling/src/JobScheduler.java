@@ -111,9 +111,25 @@ public class JobScheduler
 	  return highestProfitFirst; 
 	}
 
- public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3)
+ public Schedule newApproxSchedule() //Your own creation. Must be <= O(n3) //IRVIN
 {
-	return null;  }
+	 //Creation Idea: Longest job first
+	 Schedule longestJobFirst = new Schedule();
+	  Comparator<Job> comparator = new ljfComparison();
+	  PriorityQueue<Job> queue = new PriorityQueue<Job>(nJobs, comparator);
+	  
+	  for(int i = 0; i < nJobs; i++){
+		  queue.add(jobs[i]);
+	  }
+	  //after priority queue is filled, add them into the LJF schedule
+	  for(int i = 0; i < nJobs; i++){
+		  longestJobFirst.add(queue.poll()); // .poll takes the head of the list and removes
+	  }
+	  
+	  longestJobFirst.completeSchedule();
+	  return longestJobFirst; 
+
+}
   
 }//end of JobScheduler class
 
@@ -264,6 +280,21 @@ class sjfComparison implements Comparator<Job> {
 		} 
 		else if (a.length < b.length){
 			return -1;
+		}
+		else {
+			return 0;
+		}
+	}
+}
+
+class ljfComparison implements Comparator<Job> {
+	public int compare(Job a, Job b){
+		if (a.length < b.length){
+			return 1;
+		}
+		else if (a.length > b.length){
+			return -1;
+			
 		}
 		else {
 			return 0;
