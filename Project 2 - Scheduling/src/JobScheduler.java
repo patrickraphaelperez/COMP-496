@@ -37,8 +37,33 @@ public class JobScheduler
   {
 	  Schedule bruteForceSolution = new Schedule();
 	  
-	return null;   
+	  
+	  
+	  
+
+	return bruteForceSolution;   
   }
+  
+  public void permute(Job[] jobs) { 
+	 permuteHelper(jobs, 0);
+  }
+  
+  public void permuteHelper(Job[] jobs, int i){ //swaps the elements and recursively calls permute
+	  if (i >= jobs.length - 1) {
+		  return;
+	  }
+	  for (int j = i; j < jobs.length; j++){
+		  Job temp = jobs[i];
+		  jobs[i] = jobs[j];
+		  jobs[j] = temp;
+		  
+		  permuteHelper(jobs, i+1);
+		  
+		  temp = jobs[i];
+		  jobs[i] = jobs[j];
+		  jobs[j] = temp;
+	  }
+ }
 
   public Schedule makeScheduleEDF()  //IRVIN
   //earliest deadline first schedule. Schedule items contributing 0 to total profit last
@@ -289,7 +314,7 @@ class sjfComparison implements Comparator<Job> {
 
 class ljfComparison implements Comparator<Job> {
 	public int compare(Job a, Job b){
-		if (a.length < b.length){
+		if (a.length < b.length){ //if a's jobs length is less than b's job then switch them
 			return 1;
 		}
 		else if (a.length > b.length){
