@@ -37,11 +37,7 @@ public class JobScheduler
   {
 	  Schedule bruteForceSolution = new Schedule();
 	  
-	  
-	  
-	  
-
-	return bruteForceSolution;   
+	  return bruteForceSolution;   
   }
   
   public void permute(Job[] jobs) { 
